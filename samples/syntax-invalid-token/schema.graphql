@@ -1,0 +1,4 @@
+# Invalid tokens in the schema
+type Query {
+  id: ID! @@@
+}

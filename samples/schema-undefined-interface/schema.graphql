@@ -1,0 +1,9 @@
+# Type implements an interface that doesn't exist
+type Query {
+  id: ID
+}
+
+type Dog implements Animal {
+  name: String
+  breed: String
+}

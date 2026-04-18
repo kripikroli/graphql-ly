@@ -1,0 +1,4 @@
+# Argument references an input type that doesn't exist
+type Query {
+  getUser(input: UserInput): String
+}

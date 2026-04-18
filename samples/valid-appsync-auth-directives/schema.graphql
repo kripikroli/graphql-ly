@@ -1,0 +1,15 @@
+# All AppSync auth directives used correctly — expect NO errors
+type Post @aws_api_key @aws_iam {
+  id: ID!
+  title: String!
+  secret: String @aws_iam
+}
+
+type Query {
+  publicGet: String @aws_api_key
+  iamGet: String @aws_iam
+  oidcGet: String @aws_oidc
+  lambdaGet: String @aws_lambda
+  authGet: String @aws_auth(cognito_groups: ["Admin"])
+  cognitoGet: String @aws_cognito_user_pools(cognito_groups: ["Users"])
+}

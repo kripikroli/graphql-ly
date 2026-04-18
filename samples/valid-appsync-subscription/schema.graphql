@@ -1,0 +1,20 @@
+# AppSync subscription pattern — expect NO errors
+type Query {
+  getPost(id: ID!): Post
+}
+
+type Mutation {
+  addPost(title: String!, content: String): Post
+  deletePost(id: ID!): Post
+}
+
+type Subscription {
+  onAddPost: Post @aws_subscribe(mutations: ["addPost"])
+  onDeletePost: Post @aws_subscribe(mutations: ["deletePost"])
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String
+}

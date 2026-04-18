@@ -1,0 +1,6 @@
+# Union references types that don't exist
+type Query {
+  search: SearchResult
+}
+
+union SearchResult = Post | Comment

@@ -1,0 +1,5 @@
+# Missing closing brace on type definition
+type Query {
+  id: ID!
+  name: String
+

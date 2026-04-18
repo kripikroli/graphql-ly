@@ -1,0 +1,4 @@
+# Using a directive that doesn't exist
+type Query {
+  getUser: String @nonexistent
+}

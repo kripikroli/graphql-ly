@@ -1,0 +1,50 @@
+# Complex valid schema — expect NO errors
+scalar DateTime
+
+enum Status {
+  ACTIVE
+  INACTIVE
+  PENDING
+}
+
+interface Node {
+  id: ID!
+  createdAt: DateTime
+}
+
+type User implements Node {
+  id: ID!
+  createdAt: DateTime
+  name: String!
+  email: String
+  status: Status
+}
+
+type Post implements Node {
+  id: ID!
+  createdAt: DateTime
+  title: String!
+  content: String
+  author: User!
+  tags: [String!]
+}
+
+union SearchResult = User | Post
+
+input CreatePostInput {
+  title: String!
+  content: String
+  tags: [String!]
+}
+
+type Query {
+  node(id: ID!): Node
+  user(id: ID!): User
+  search(term: String!): [SearchResult!]!
+  posts(limit: Int = 10, offset: Int = 0): [Post!]!
+}
+
+type Mutation {
+  createPost(input: CreatePostInput!): Post!
+  deletePost(id: ID!): Post
+}

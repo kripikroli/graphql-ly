@@ -1,0 +1,8 @@
+# @aws_subscribe is only valid on FIELD_DEFINITION, not on a type
+type Query {
+  id: ID
+}
+
+type Subscription @aws_subscribe(mutations: ["addPost"]) {
+  onAddPost: String
+}

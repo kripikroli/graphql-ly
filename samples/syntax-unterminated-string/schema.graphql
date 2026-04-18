@@ -1,0 +1,4 @@
+# Unterminated string in description
+type Query {
+  name: "this string never closes
+}

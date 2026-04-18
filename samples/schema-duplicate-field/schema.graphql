@@ -1,0 +1,5 @@
+# Same field name defined twice in one type
+type Query {
+  name: String
+  name: Int
+}

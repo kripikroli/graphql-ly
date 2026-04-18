@@ -1,0 +1,12 @@
+# Two types with the same name
+type Query {
+  id: ID
+}
+
+type User {
+  name: String
+}
+
+type User {
+  email: String
+}

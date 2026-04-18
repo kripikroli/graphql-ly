@@ -1,0 +1,5 @@
+# Missing colon between field name and type
+type Query {
+  name String
+  age Int
+}

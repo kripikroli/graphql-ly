@@ -1,0 +1,4 @@
+# @aws_auth requires cognito_groups argument
+type Query {
+  getUser: String @aws_auth
+}

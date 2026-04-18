@@ -1,0 +1,4 @@
+# Field references a type that doesn't exist
+type Query {
+  getPost: Post
+}

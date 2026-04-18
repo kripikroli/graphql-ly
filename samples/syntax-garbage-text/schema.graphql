@@ -1,0 +1,2 @@
+# This is not valid GraphQL at all
+SELECT * FROM users WHERE id = 1;

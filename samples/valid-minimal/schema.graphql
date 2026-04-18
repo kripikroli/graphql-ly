@@ -1,0 +1,4 @@
+# Minimal valid schema — expect NO errors
+type Query {
+  hello: String
+}

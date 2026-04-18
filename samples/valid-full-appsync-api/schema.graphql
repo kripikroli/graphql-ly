@@ -1,0 +1,48 @@
+# Realistic AppSync API schema — expect NO errors
+type Query {
+  getUser(id: ID!): User @aws_cognito_user_pools(cognito_groups: ["Admins", "Users"])
+  listUsers(limit: Int = 20): [User!]! @aws_api_key
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User! @aws_cognito_user_pools(cognito_groups: ["Admins"])
+  updateUser(id: ID!, input: UpdateUserInput!): User! @aws_iam
+  deleteUser(id: ID!): User @aws_iam
+}
+
+type Subscription {
+  onCreateUser: User @aws_subscribe(mutations: ["createUser"])
+  onUpdateUser: User @aws_subscribe(mutations: ["updateUser"])
+}
+
+type User @aws_api_key @aws_cognito_user_pools(cognito_groups: ["Admins", "Users"]) {
+  id: ID!
+  email: String!
+  name: String!
+  role: Role!
+  posts: [Post!]
+}
+
+type Post @aws_api_key {
+  id: ID!
+  title: String!
+  body: String
+  author: User!
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+input CreateUserInput {
+  email: String!
+  name: String!
+  role: Role!
+}
+
+input UpdateUserInput {
+  name: String
+  role: Role
+}

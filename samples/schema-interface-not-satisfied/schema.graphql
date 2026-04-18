@@ -1,0 +1,15 @@
+# Type claims to implement interface but is missing required fields
+type Query {
+  node: Node
+}
+
+interface Node {
+  id: ID!
+  createdAt: String!
+}
+
+type User implements Node {
+  id: ID!
+  # missing createdAt field
+  name: String
+}
