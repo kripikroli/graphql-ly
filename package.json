@@ -3,12 +3,12 @@
   "displayName": "GraphQL-ly",
   "description": "GraphQL schema validator with AWS AppSync directive support — syntax errors, schema validation, and inline diagnostics for .graphql files",
   "version": "0.0.1",
-  "publisher": "YOUR-PUBLISHER-NAME",
+  "publisher": "ALuminding",
   "license": "MIT",
   "icon": "images/icon.png",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/kripikroli/graphql-ly"
   },
   "engines": {
     "vscode": "^1.85.0"
