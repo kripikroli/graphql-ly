@@ -216,20 +216,18 @@ Change via **Settings** → search `graphql-ly` → select your preferred mode.
 
 ---
 
-## Publishing to VS Code Marketplace
+## Contributing
 
-1. Go to [dev.azure.com](https://dev.azure.com) and sign in (or create an account)
-2. Click your profile icon → **Security** → **Personal access tokens** → **New Token**
-   - Set **Organization** to "All accessible organizations"
-   - Under **Scopes**, select **Custom defined** → check **Marketplace > Manage**
-3. Go to [marketplace.visualstudio.com/manage](https://marketplace.visualstudio.com/manage) and create a publisher
-4. Update the `publisher` field in `package.json` with your publisher name
-5. Run:
-   ```bash
-   npx @vscode/vsce login <your-publisher-name>
-   # Paste your PAT when prompted
-   npx @vscode/vsce publish
-   ```
+Found a bug? Have a feature idea? Contributions are welcome!
+
+1. Fork the repo
+2. Create a branch (`git checkout -b my-feature`)
+3. Make your changes
+4. Run tests (`npm test`)
+5. Commit and push
+6. Open a Pull Request
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
