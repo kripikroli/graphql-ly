@@ -1,0 +1,85 @@
+{
+  "name": "graphql-ly",
+  "displayName": "GraphQL-ly",
+  "description": "GraphQL schema validator with AWS AppSync directive support — syntax errors, schema validation, and inline diagnostics for .graphql files",
+  "version": "0.0.1",
+  "publisher": "YOUR-PUBLISHER-NAME",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters"
+  ],
+  "keywords": [
+    "graphql",
+    "appsync",
+    "validator",
+    "schema",
+    "lint",
+    "diagnostics",
+    "aws"
+  ],
+  "activationEvents": [
+    "onLanguage:graphql",
+    "workspaceContains:**/*.graphql",
+    "workspaceContains:**/*.gql"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "graphql",
+        "extensions": [
+          ".graphql",
+          ".gql"
+        ],
+        "aliases": [
+          "GraphQL"
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "graphql-ly",
+      "properties": {
+        "graphql-ly.validationMode": {
+          "type": "string",
+          "default": "single",
+          "enum": [
+            "single",
+            "multi"
+          ],
+          "enumDescriptions": [
+            "Validate each .graphql file independently",
+            "Merge all workspace .graphql files and cross-validate references"
+          ],
+          "description": "Validation mode: single-file or multi-file (workspace-aware)"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "watch": "tsc -p tsconfig.build.json -watch",
+    "test": "jest",
+    "vscode:prepublish": "npm run build",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "graphql": "^16.8.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "@types/jest": "^29.5.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.22.0"
+  }
+}
