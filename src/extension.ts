@@ -6,33 +6,44 @@ const GRAPHQL_SELECTOR = ['graphql'];
 let diagnosticCollection: vscode.DiagnosticCollection;
 let debounceTimer: NodeJS.Timeout | undefined;
 
-// Inline error decoration type — red text after the line
 const errorDecorationType = vscode.window.createTextEditorDecorationType({});
-// Track decorations per URI so we can clean up
 const decorationMap = new Map<string, vscode.DecorationOptions[]>();
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('graphql-ly: extension activated');
-  diagnosticCollection = vscode.languages.createDiagnosticCollection('graphql-ly');
-  context.subscriptions.push(diagnosticCollection, errorDecorationType);
+  try {
+    console.log('graphql-ly: extension activated');
+    diagnosticCollection = vscode.languages.createDiagnosticCollection('graphql-ly');
+    context.subscriptions.push(diagnosticCollection, errorDecorationType);
 
-  vscode.workspace.textDocuments.forEach(doc => lintDocument(doc));
+    // Validate already-open documents
+    vscode.workspace.textDocuments.forEach(doc => safeLint(doc));
 
-  context.subscriptions.push(
-    vscode.workspace.onDidOpenTextDocument(doc => lintDocument(doc)),
-    vscode.workspace.onDidChangeTextDocument(e => lintDocument(e.document)),
-    vscode.workspace.onDidSaveTextDocument(doc => lintDocument(doc)),
-    vscode.workspace.onDidCloseTextDocument(doc => {
-      diagnosticCollection.delete(doc.uri);
-      decorationMap.delete(doc.uri.toString());
-    }),
-    vscode.window.onDidChangeActiveTextEditor(editor => {
-      if (editor) { applyDecorations(editor); }
-    }),
-    vscode.workspace.onDidChangeConfiguration(e => {
-      if (e.affectsConfiguration('graphql-ly.validationMode')) { revalidateAll(); }
-    })
-  );
+    context.subscriptions.push(
+      vscode.workspace.onDidOpenTextDocument(doc => safeLint(doc)),
+      vscode.workspace.onDidChangeTextDocument(e => safeLint(e.document)),
+      vscode.workspace.onDidSaveTextDocument(doc => safeLint(doc)),
+      vscode.workspace.onDidCloseTextDocument(doc => {
+        diagnosticCollection.delete(doc.uri);
+        decorationMap.delete(doc.uri.toString());
+      }),
+      vscode.window.onDidChangeActiveTextEditor(editor => {
+        if (editor) { applyDecorations(editor); }
+      }),
+      vscode.workspace.onDidChangeConfiguration(e => {
+        if (e.affectsConfiguration('graphql-ly.validationMode')) { revalidateAll(); }
+      })
+    );
+  } catch (e: any) {
+    console.error('graphql-ly: activation failed:', e?.message, e?.stack);
+  }
+}
+
+function safeLint(doc: vscode.TextDocument): void {
+  try {
+    lintDocument(doc);
+  } catch (e: any) {
+    console.error('graphql-ly: lint error:', e?.message, e?.stack);
+  }
 }
 
 function isGraphQL(doc: vscode.TextDocument): boolean {
@@ -71,7 +82,6 @@ function publishDiagnostics(uri: vscode.Uri, entries: DiagnosticEntry[]): void {
   });
   diagnosticCollection.set(uri, diagnostics);
 
-  // Build inline decorations
   const decos: vscode.DecorationOptions[] = entries.map(e => ({
     range: new vscode.Range(e.line, Number.MAX_SAFE_INTEGER, e.line, Number.MAX_SAFE_INTEGER),
     renderOptions: {
@@ -85,7 +95,6 @@ function publishDiagnostics(uri: vscode.Uri, entries: DiagnosticEntry[]): void {
   }));
   decorationMap.set(uri.toString(), decos);
 
-  // Apply to active editor if it matches
   const editor = vscode.window.visibleTextEditors.find(ed => ed.document.uri.toString() === uri.toString());
   if (editor) { editor.setDecorations(errorDecorationType, decos); }
 }
@@ -103,12 +112,10 @@ function debouncedWorkspaceValidation(): void {
 async function runWorkspaceValidation(): Promise<void> {
   const results = await validateWorkspace();
   diagnosticCollection.clear();
-  // Clear all decorations
   for (const editor of vscode.window.visibleTextEditors) {
     editor.setDecorations(errorDecorationType, []);
   }
   decorationMap.clear();
-
   for (const [uriStr, entries] of results) {
     publishDiagnostics(vscode.Uri.parse(uriStr), entries);
   }
@@ -123,7 +130,7 @@ function revalidateAll(): void {
   if (getMode() === 'multi') {
     runWorkspaceValidation();
   } else {
-    vscode.workspace.textDocuments.forEach(doc => lintDocument(doc));
+    vscode.workspace.textDocuments.forEach(doc => safeLint(doc));
   }
 }
 

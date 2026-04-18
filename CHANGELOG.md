@@ -2,7 +2,7 @@
 
 All notable changes to the **GraphQL-ly** extension will be documented in this file.
 
-## [0.0.1] - 2026-04-17
+## [1.0.0] - 2026-04-18
 
 ### Added
 

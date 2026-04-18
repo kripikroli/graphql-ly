@@ -2,7 +2,7 @@
   "name": "graphql-ly",
   "displayName": "GraphQL-ly",
   "description": "GraphQL schema validator with AWS AppSync directive support — syntax errors, schema validation, and inline diagnostics for .graphql files",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "publisher": "ALuminding",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -28,7 +28,8 @@
   "activationEvents": [
     "onLanguage:graphql",
     "workspaceContains:**/*.graphql",
-    "workspaceContains:**/*.gql"
+    "workspaceContains:**/*.gql",
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -64,7 +65,7 @@
     }
   },
   "scripts": {
-    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node",
+    "build": "esbuild src/extension.ts --bundle --outfile=out/extension.js --external:vscode --format=cjs --platform=node --minify",
     "watch": "npm run build -- --watch",
     "test": "jest",
     "vscode:prepublish": "npm run build",
