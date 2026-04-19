@@ -2,7 +2,7 @@
   "name": "graphql-ly",
   "displayName": "GraphQL-ly",
   "description": "GraphQL schema validator with AWS AppSync directive support — syntax errors, schema validation, and inline diagnostics for .graphql files",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "ALuminding",
   "license": "MIT",
   "icon": "images/icon.png",

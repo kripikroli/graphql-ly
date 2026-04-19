@@ -2,6 +2,13 @@
 
 All notable changes to the **GraphQL-ly** extension will be documented in this file.
 
+## [1.1.0] - 2026-04-19
+
+### Added
+
+- AWS AppSync built-in scalar type support — `AWSDate`, `AWSTime`, `AWSDateTime`, `AWSTimestamp`, `AWSEmail`, `AWSJSON`, `AWSPhone`, `AWSURL`, `AWSIPAddress` no longer trigger false "Unknown type" errors
+- 12 new unit tests for scalar type validation
+
 ## [1.0.0] - 2026-04-18
 
 ### Added
