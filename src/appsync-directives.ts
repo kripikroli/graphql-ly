@@ -1,4 +1,13 @@
 export const APPSYNC_DIRECTIVES = `
+scalar AWSDate
+scalar AWSTime
+scalar AWSDateTime
+scalar AWSTimestamp
+scalar AWSEmail
+scalar AWSJSON
+scalar AWSPhone
+scalar AWSURL
+scalar AWSIPAddress
 directive @aws_auth(cognito_groups: [String!]!) on FIELD_DEFINITION | OBJECT
 directive @aws_api_key on FIELD_DEFINITION | OBJECT
 directive @aws_iam on FIELD_DEFINITION | OBJECT

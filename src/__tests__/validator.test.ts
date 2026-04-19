@@ -242,6 +242,75 @@ type Subscription {
   });
 });
 
+// ─── APPSYNC SCALAR TYPES (NO FALSE POSITIVES) ─────────────────
+
+describe('AppSync scalar types — no false positives', () => {
+  test('AWSJSON field type', () => {
+    expectValid(`type Query {\n  data: AWSJSON\n}`);
+  });
+
+  test('AWSDate field type', () => {
+    expectValid(`type Query {\n  date: AWSDate\n}`);
+  });
+
+  test('AWSTime field type', () => {
+    expectValid(`type Query {\n  time: AWSTime\n}`);
+  });
+
+  test('AWSDateTime field type', () => {
+    expectValid(`type Query {\n  createdAt: AWSDateTime\n}`);
+  });
+
+  test('AWSTimestamp field type', () => {
+    expectValid(`type Query {\n  ts: AWSTimestamp\n}`);
+  });
+
+  test('AWSEmail field type', () => {
+    expectValid(`type Query {\n  email: AWSEmail\n}`);
+  });
+
+  test('AWSPhone field type', () => {
+    expectValid(`type Query {\n  phone: AWSPhone\n}`);
+  });
+
+  test('AWSURL field type', () => {
+    expectValid(`type Query {\n  url: AWSURL\n}`);
+  });
+
+  test('AWSIPAddress field type', () => {
+    expectValid(`type Query {\n  ip: AWSIPAddress\n}`);
+  });
+
+  test('all AppSync scalars used together', () => {
+    const schema = `
+type Query {
+  get: Record
+}
+type Record {
+  date: AWSDate
+  time: AWSTime
+  datetime: AWSDateTime
+  timestamp: AWSTimestamp
+  email: AWSEmail
+  json: AWSJSON
+  phone: AWSPhone
+  url: AWSURL
+  ip: AWSIPAddress
+}`;
+    expectValid(schema);
+  });
+
+  test('AppSync scalars as argument types', () => {
+    expectValid(`type Query {\n  search(since: AWSDateTime, data: AWSJSON): String\n}`);
+  });
+
+  test('AppSync scalars in input types', () => {
+    expectValid(
+      `type Query {\n  id: ID\n}\ninput CreateInput {\n  email: AWSEmail!\n  data: AWSJSON\n  createdAt: AWSDateTime\n}`
+    );
+  });
+});
+
 // ─── DIRECTIVE ERRORS ───────────────────────────────────────────
 
 describe('Directive errors', () => {

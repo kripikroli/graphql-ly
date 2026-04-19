@@ -165,6 +165,22 @@ Recognizes all AppSync authorization and subscription directives — no false po
 | `@aws_cognito_user_pools` | Cognito User Pools (additional auth mode) |
 | `@aws_subscribe` | Real-time subscriptions |
 
+### ✅ AWS AppSync Scalar Type Support
+
+Recognizes all AppSync built-in scalar types — no false positives:
+
+| Scalar | Purpose |
+|---|---|
+| `AWSDate` | ISO 8601 date (`YYYY-MM-DD`) |
+| `AWSTime` | ISO 8601 time (`hh:mm:ss.sss`) |
+| `AWSDateTime` | ISO 8601 date and time |
+| `AWSTimestamp` | Unix epoch seconds |
+| `AWSEmail` | Email address (RFC 822) |
+| `AWSJSON` | Arbitrary JSON string |
+| `AWSPhone` | Phone number |
+| `AWSURL` | URL (RFC 1738) |
+| `AWSIPAddress` | IPv4 or IPv6 address |
+
 ```graphql
 # ✅ All valid — no errors
 type Post @aws_api_key @aws_iam {
